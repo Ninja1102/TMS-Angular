@@ -1,0 +1,191 @@
+<div class="dashboard-container">
+    <div class="container">
+      <header class="dashboard-header">
+        <div class="dashboard-title">
+          <h1>Vendor Dashboard</h1>
+          <p>Manage trainings and trainers</p>
+        </div>
+        
+        <div class="dashboard-actions">
+          <button class="btn btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Create New Training
+          </button>
+        </div>
+      </header>
+      
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-icon assigned-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3>{{ getTrainingsByStatus('assigned').length }}</h3>
+            <p>Assigned Trainings</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon ongoing-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3>{{ getTrainingsByStatus('ongoing').length }}</h3>
+            <p>Ongoing Trainings</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon completed-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3>{{ getTrainingsByStatus('completed').length }}</h3>
+            <p>Completed Trainings</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon trainers-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3>{{ trainers.length }}</h3>
+            <p>Trainers</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="dashboard-content">
+        <div class="dashboard-section">
+          <div class="section-header">
+            <h2>Ongoing Trainings</h2>
+            <div class="section-actions">
+              <button class="btn-filter">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
+                </svg>
+                Filter
+              </button>
+            </div>
+          </div>
+          
+          <div class="training-cards">
+            <div *ngFor="let training of getTrainingsByStatus('ongoing')" class="card training-card">
+              <div class="training-status ongoing">Ongoing</div>
+              <h3>{{ training.title }}</h3>
+              <div class="training-details">
+                <p>{{ training.description | slice:0:120 }}{{ training.description.length > 120 ? '...' : '' }}</p>
+                <div class="training-meta">
+                  <div class="meta-item">
+                    <span class="meta-label">Start:</span>
+                    <span class="meta-value">{{ training.startDate | date:'mediumDate' }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">End:</span>
+                    <span class="meta-value">{{ training.endDate | date:'mediumDate' }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Location:</span>
+                    <span class="meta-value">{{ training.location }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Company:</span>
+                    <span class="meta-value">Tech Solutions Inc.</span>
+                  </div>
+                </div>
+                <div class="training-skills">
+                  <span *ngFor="let skill of training.requiredSkills" class="skill-tag">{{ skill }}</span>
+                </div>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-outline">View Details</button>
+                <button class="btn btn-secondary">Update Progress</button>
+              </div>
+            </div>
+            
+            <div *ngIf="getTrainingsByStatus('ongoing').length === 0" class="empty-state">
+              <div class="empty-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12l-3-3m0 0l-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+              </div>
+              <h3>No Ongoing Trainings</h3>
+              <p>You don't have any ongoing trainings at the moment.</p>
+              <button class="btn btn-secondary">View Available Trainings</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="dashboard-section">
+          <div class="section-header">
+            <h2>Available Trainers</h2>
+            <div class="section-actions">
+              <button class="btn-filter">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
+                </svg>
+                Filter by Skill
+              </button>
+            </div>
+          </div>
+          
+          <div class="trainer-cards">
+            <div *ngFor="let trainer of getAvailableTrainers()" class="card trainer-card">
+              <div class="trainer-status available">Available</div>
+              <div class="trainer-header">
+                <div class="trainer-avatar">
+                  {{ getTrainerInitials(trainer) }}
+                </div>
+                <div class="trainer-basic-info">
+                  <h3>{{ trainer.fullName }}</h3>
+                  <p>{{ trainer.experience }} years experience</p>
+                </div>
+              </div>
+              <div class="trainer-details">
+                <div class="trainer-meta">
+                  <div class="meta-item">
+                    <span class="meta-label">Rate:</span>
+                    <span class="meta-value">${{ trainer.dailyRate }}/day</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Location:</span>
+                    <span class="meta-value">{{ trainer.preferredLocation | titlecase }}</span>
+                  </div>
+                </div>
+                <div class="trainer-skills">
+                  <span *ngFor="let skill of trainer.skills.slice(0, 4)" class="skill-tag">{{ skill }}</span>
+                  <span *ngIf="trainer.skills.length > 4" class="skill-tag more">+{{ trainer.skills.length - 4 }}</span>
+                </div>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-outline">View Profile</button>
+                <button class="btn btn-secondary">Assign to Training</button>
+              </div>
+            </div>
+            
+            <div *ngIf="getAvailableTrainers().length === 0" class="empty-state">
+              <div class="empty-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+              </div>
+              <h3>No Available Trainers</h3>
+              <p>You don't have any available trainers at the moment.</p>
+              <button class="btn btn-secondary">Invite Trainers</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
